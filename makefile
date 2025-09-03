@@ -8,7 +8,7 @@ BOOTLOADER_BIN    := $(BOOTLOADER_DIR)/rustsbi-qemu.bin
 BOOTLOADER_URL    := https://github.com/rustsbi/rustsbi-qemu/releases/download/Unreleased/rustsbi-qemu-release.gz
 
 # Phony targets
-.PHONY: all kernel run clean-bootloader clean
+.PHONY: all kernel release run clean-bootloader clean clean-all
 
 # Default target: ensure bootloader is ready
 all: $(BOOTLOADER_BIN)
@@ -30,17 +30,39 @@ $(BOOTLOADER_BIN): $(BOOTLOADER_GZ)
 	@echo "Cleaning up archive..."
 	rm -f $(BOOTLOADER_GZ)
 
-# Build the kernel with nightly Rust
+# Build the kernel with nightly Rust in debug mode
 kernel:
-	cargo +nightly build -Z build-std=core,alloc --target $(TARGET)
+	RUSTFLAGS="-Clink-arg=-Tkernel/src/linker.ld -Cforce-frame-pointers=yes" \
+	cargo +nightly build \
+        -Z build-std=core,alloc \
+        --bin kernel \
+        --target $(TARGET)
+
+# Build the OS in release mode
+release:
+	RUSTFLAGS="-Clink-arg=-Tkernel/src/linker.ld -Cforce-frame-pointers=yes" \
+	cargo +nightly build \
+		-Z build-std=core,alloc \
+		--bin kernel \
+		--target $(TARGET) \
+		--release
+	rust-objcopy --strip-all target/$(TARGET)/release/kernel -O binary target/$(TARGET)/release/kernel.bin
 
 # Run the kernel in QEMU with the prepared bootloader
-run: bootloader kernel
+run: bootloader release
 	qemu-system-riscv64 \
 		-machine virt \
 		-nographic \
 		-bios $(BOOTLOADER_BIN) \
-		-device loader,file=target/$(TARGET)/release/kernel.bin,addr=0x80200000
+		-device loader,file=target/$(TARGET)/release/kernel.bin,addr=0x80200000 \
+		-s -S
+
+# Open qemu gdb client
+gc:
+	riscv64-unknown-elf-gdb \
+        -ex 'file target/$(TARGET)/release/kernel' \
+        -ex 'set arch riscv:rv64' \
+        -ex 'target remote localhost:1234'
 
 # Remove bootloader directory
 clean-bootloader:
@@ -48,6 +70,9 @@ clean-bootloader:
 	rm -rf $(BOOTLOADER_DIR)
 
 # Clean all build artifacts
-clean: clean-bootloader
+clean:
 	@echo "Cleaning project artifacts..."
 	cargo clean
+
+# Clean build artifacts and bootloader file
+clean-all: clean clean-bootloader

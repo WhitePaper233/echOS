@@ -10,3 +10,4 @@ panic = "abort"
 panic = "abort"
 
 [dependencies]
+sbi-rt = "0.0.3"

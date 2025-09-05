@@ -1,5 +1,5 @@
 # Target triple for Rust compilation
-TARGET            = riscv64gc-unknown-none-elf
+TARGET            := riscv64gc-unknown-none-elf
 
 # Bootloader (RustSBI) configuration
 BOOTLOADER_DIR    := bootloader

@@ -3,12 +3,13 @@
 //! This crate provides the fundamental user-space runtime and system call interface
 //! for applications running on the echOS operating system. It implements the basic
 //! functionality needed for user programs to interact with the kernel.
-
 #![no_std]
 #![feature(linkage)]
 
+#[macro_use]
 pub mod console;
-mod syscall;
+mod language_items;
+pub mod syscall;
 
 /// Writes data to a file descriptor.
 ///
@@ -63,10 +64,10 @@ fn main() -> i32 {
 /// function iterates through the BSS section and sets all bytes to zero.
 fn reset_bss_section() {
     unsafe extern "C" {
-        fn start_bss();
-        fn end_bss();
+        fn bbss();
+        fn ebss();
     }
-    (start_bss as usize..end_bss as usize).for_each(|ptr| unsafe {
+    (bbss as usize..ebss as usize).for_each(|ptr| unsafe {
         (ptr as *mut u8).write_volatile(0);
     });
 }

@@ -18,10 +18,10 @@ MODE              := release
 APP_DIR           := src/bin
 
 # Output directory for compiled binaries
-TARGET_DIR        := target/$(TARGET)/$(MODE)
+TARGET_DIR        := ../target/$(TARGET)/$(MODE)
 
 # Path to the custom linker script for user applications
-LINKER_SCRIPT_DIR := src/linker.ld
+LINKER_SCRIPT_DIR := user/src/linker.ld
 
 # =============
 # File Discovery

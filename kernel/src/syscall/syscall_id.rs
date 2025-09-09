@@ -1,0 +1,5 @@
+/// System call number for the write operation.
+pub const SYSCALL_WRITE: usize = 64;
+
+/// System call number for the exit operation.
+pub const SYSCALL_EXIT: usize = 93;

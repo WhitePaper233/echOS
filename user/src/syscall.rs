@@ -18,7 +18,7 @@ const SYSCALL_EXIT: usize = 93;
 /// the RISC-V calling convention. It places arguments in the appropriate
 /// registers and executes the `ecall` instruction to transfer control
 /// to the kernel.
-pub fn system_call(id: usize, args: [usize; 3]) -> isize {
+pub fn syscall(id: usize, args: [usize; 3]) -> isize {
     let mut ret: isize;
     unsafe {
         asm!(
@@ -67,7 +67,7 @@ pub fn system_call(id: usize, args: [usize; 3]) -> isize {
 /// let bytes_written = system_write(1, message.as_ptr(), message.len());
 /// ```
 pub fn system_write(fd: usize, buf: *const u8, len: usize) -> isize {
-    system_call(SYSCALL_WRITE, [fd, buf as usize, len])
+    syscall(SYSCALL_WRITE, [fd, buf as usize, len])
 }
 
 /// Terminates the current process with the specified exit status.
@@ -102,6 +102,6 @@ pub fn system_write(fd: usize, buf: *const u8, len: usize) -> isize {
 /// system_exit(1);
 /// ```
 pub fn system_exit(status: usize) -> ! {
-    system_call(SYSCALL_EXIT, [status, 0, 0]);
+    syscall(SYSCALL_EXIT, [status, 0, 0]);
     unreachable!()
 }

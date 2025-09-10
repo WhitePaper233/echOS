@@ -40,8 +40,8 @@ impl Write for Console {
     /// * `Err(fmt::Error)` if the write operation failed (returned non-zero)
     fn write_str(&mut self, s: &str) -> fmt::Result {
         match write(FD_STDOUT, s.as_bytes()) {
-            0 => Ok(()),
-            _ => Err(fmt::Error {}),
+            ..=-1 => Err(fmt::Error {}),
+            _ => Ok(()),
         }
     }
 }

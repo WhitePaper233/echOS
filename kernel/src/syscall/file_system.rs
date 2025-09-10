@@ -1,3 +1,5 @@
+use crate::{batch::run_next_app, errorln};
+
 type FileDescriptor = usize;
 /// Standard input file descriptor constant.
 pub const FD_STDIN: FileDescriptor = 0;
@@ -12,10 +14,11 @@ pub fn sys_write(fd: FileDescriptor, buf: *const u8, len: usize) -> isize {
             let slice = unsafe { core::slice::from_raw_parts(buf, len) };
             let str = core::str::from_utf8(slice).unwrap_or_default();
             print!("{}", str);
-            0
+            len as isize
         }
         _ => {
-            panic!("Unsupported fd = {} in sys_write", fd)
+            errorln!("Unsupported fd = {} in sys_write", fd);
+            -1
         }
     }
 }

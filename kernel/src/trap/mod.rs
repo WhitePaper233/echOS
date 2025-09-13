@@ -9,7 +9,7 @@ use riscv::{
     },
 };
 
-use crate::{batch, errorln, syscall::syscall, trap::context::TrapContext};
+use crate::{errorln, syscall::syscall, task, trap::context::TrapContext};
 
 pub mod context;
 
@@ -41,33 +41,33 @@ pub fn trap_handler(ctx: &mut TrapContext) -> &mut TrapContext {
                 }
                 Exception::StoreFault => {
                     errorln!("StoreFault in application, kernel killed it.");
-                    batch::run_next_app();
+                    task::exit_current_and_run_next();
                 }
                 Exception::StorePageFault => {
                     errorln!("PageFault in application, kernel killed it.");
-                    batch::run_next_app();
+                    task::exit_current_and_run_next();
                 }
                 Exception::IllegalInstruction => {
                     errorln!("IllegalInstruction in application, kernel killed it.");
-                    batch::run_next_app();
+                    task::exit_current_and_run_next();
                 }
                 _ => {
                     errorln!(
-                        "Unsupported trap {:?}, stval = {:#x} in application, kernel killed it.",
+                        "Unsupported exception {:?}, stval = {:#x} in application, kernel killed it.",
                         scause.cause(),
                         stval
                     );
-                    batch::run_next_app();
+                    task::exit_current_and_run_next();
                 }
             }
         }
         _ => {
             errorln!(
-                "Unsupported trap {:?}, stval = {:#x} in application, kernel killed it.",
+                "Unsupported interrupt {:?}, stval = {:#x} in application, kernel killed it.",
                 scause.cause(),
                 stval
             );
-            batch::run_next_app();
+            task::exit_current_and_run_next();
         }
     }
     ctx

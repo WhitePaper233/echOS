@@ -105,3 +105,7 @@ pub fn system_exit(status: usize) -> ! {
     syscall(SYSCALL_EXIT, [status, 0, 0]);
     unreachable!()
 }
+
+pub fn system_yield() -> isize {
+    syscall(SYSCALL_EXIT, [0, 0, 0])
+}

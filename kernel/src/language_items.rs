@@ -1,6 +1,9 @@
 use core::panic::PanicInfo;
 
-use crate::{console::styles::{Color, FontStyle}, system};
+use crate::{
+    console::styles::{Color, FontStyle},
+    system,
+};
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {

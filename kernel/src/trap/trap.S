@@ -8,8 +8,8 @@
 .endm
 
     .section .text
-    .globl __alltraps
-    .globl __restore
+    .global __alltraps
+    .global __restore
     .align 2
 
 __all_traps:
@@ -45,13 +45,7 @@ __all_traps:
     mv a0, sp
     call trap_handler
 
-
-
 __restore:
-    # case1: use __restore to start a new app, a0 -> register context for this app
-    # case2: back to U mode after handling trap
-    mv sp, a0
-
     # restore sstatus, sepc, sscratch(which saves value of user stack ptr)
     ld t0, 32*8(sp)
     ld t1, 33*8(sp)

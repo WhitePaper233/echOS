@@ -1,7 +1,7 @@
     .align 3
     .section .data
-    .global app_instruction_section_ptr
-app_instruction_section_ptr:
+    .global _app_nums
+_app_nums:
     .quad 6
     .quad app_0_start
     .quad app_1_start

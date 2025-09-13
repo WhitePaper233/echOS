@@ -26,8 +26,8 @@ fn insert_app_data() {
         file,
         r#"    .align 3
     .section .data
-    .global app_instruction_section_ptr
-app_instruction_section_ptr:
+    .global _app_nums
+_app_nums:
     .quad {}"#,
         apps.len()
     )

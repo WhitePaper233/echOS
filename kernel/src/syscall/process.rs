@@ -1,6 +1,15 @@
-use crate::{batch, debugln};
+use crate::{
+    infoln,
+    task::{exit_current_and_run_next, suspend_current_and_run_next},
+};
+
+pub fn sys_yield() -> isize {
+    suspend_current_and_run_next();
+    0
+}
 
 pub fn sys_exit(status: i32) -> ! {
-    debugln!("Application exited with status {}", status);
-    batch::run_next_app();
+    infoln!("Application exited with code {}", status);
+    exit_current_and_run_next();
+    unreachable!();
 }

@@ -1,10 +1,13 @@
-use crate::{batch::run_next_app, errorln};
+use crate::errorln;
 
 type FileDescriptor = usize;
+#[allow(unused)]
 /// Standard input file descriptor constant.
 pub const FD_STDIN: FileDescriptor = 0;
+#[allow(unused)]
 /// Standard output file descriptor constant.
 pub const FD_STDOUT: FileDescriptor = 1;
+#[allow(unused)]
 /// Standard error file descriptor constant.
 pub const FD_STDERR: FileDescriptor = 2;
 

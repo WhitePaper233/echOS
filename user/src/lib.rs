@@ -6,6 +6,8 @@
 #![no_std]
 #![feature(linkage)]
 
+use crate::syscall::system_yield;
+
 #[macro_use]
 pub mod console;
 mod language_items;
@@ -32,6 +34,10 @@ pub fn write(fd: usize, buf: &[u8]) -> isize {
 /// * `status` - The exit status code to return to the parent process
 pub fn exit(status: i32) -> ! {
     syscall::system_exit(status as usize)
+}
+
+pub fn yield_() -> isize {
+    system_yield()
 }
 
 /// Application entry point called by the kernel when starting a user process.

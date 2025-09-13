@@ -52,17 +52,18 @@ OBJCOPY := rust-objcopy --binary-architecture=riscv64
 
 # Primary target: Build ELF executables from Rust source
 # Uses custom linker script and builds standard library from source
-elf:
-	RUSTFLAGS="-Clink-arg=-T$(LINKER_SCRIPT_DIR)" \
-	cargo +nightly build -Z build-std=core,alloc --release --target $(TARGET)
-	@echo "Applications found: $(APPS)"
-	@echo "ELF outputs: $(ELFS)"
-	@echo "Binary outputs: $(BINS)"
+elf: $(APPS)
+	@python3 build.py
 
 # Convert ELF executables to raw binary format
 # Strips debug symbols and metadata, creating pure machine code
 binary: elf
-	$(foreach elf, $(ELFS), $(OBJCOPY) $(elf) --strip-all -O binary $(patsubst $(TARGET_DIR)/%, $(TARGET_DIR)/%.bin, $(elf));)
+	@$(foreach elf, $(ELFS), $(OBJCOPY) $(elf) --strip-all -O binary $(patsubst $(TARGET_DIR)/%, $(TARGET_DIR)/%.bin, $(elf));)
 
 # Complete build process: compile and convert to binary
 build: binary
+
+clean:
+	@cargo clean
+
+.PHONY: elf binary build clean

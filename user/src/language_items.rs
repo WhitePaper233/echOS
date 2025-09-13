@@ -1,7 +1,5 @@
-#[cfg(not(test))]
 use core::panic::PanicInfo;
 
-#[cfg(not(test))]
 #[panic_handler]
 fn panic_handler(panic_info: &PanicInfo) -> ! {
     let err = panic_info.message();

@@ -55,7 +55,7 @@ run: bootloader release
 		-nographic \
 		-bios $(BOOTLOADER_BIN) \
 		-device loader,file=target/$(TARGET)/release/kernel.bin,addr=0x80200000 \
-		-s
+		-s -S
 
 # Open qemu gdb client
 gc:

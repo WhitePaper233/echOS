@@ -6,10 +6,12 @@ use core::arch::global_asm;
 
 #[macro_use]
 mod console;
-mod batch;
+mod config;
 mod language_items;
+mod loader;
 mod syscall;
 mod system;
+mod task;
 mod trap;
 
 global_asm!(include_str!("entry.asm"));
@@ -24,8 +26,8 @@ pub fn kernel_entry() -> ! {
     errorln!("Error occured!");
 
     trap::init();
-    batch::init();
-    batch::run_next_app()
+    loader::load_apps();
+    task::run_first_task();
 }
 
 fn reset_bss_section() {

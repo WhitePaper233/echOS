@@ -1,4 +1,4 @@
-use crate::{config, debugln, trap::context::TrapContext};
+use crate::{config, trap::context::TrapContext};
 
 pub static KERNEL_STACK: [KernelStack; config::MAX_APP_NUM] = [KernelStack {
     data: [0; config::KERNEL_STACK_SIZE],
@@ -21,7 +21,6 @@ impl KernelStack {
         unsafe {
             *trap_ctx_ptr = trap_ctx;
         }
-        debugln!("{:x}", trap_ctx_ptr as usize);
         trap_ctx_ptr as usize
     }
 }

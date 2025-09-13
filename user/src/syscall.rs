@@ -12,6 +12,8 @@ const SYSCALL_WRITE: usize = 64;
 /// System call number for the exit operation.
 const SYSCALL_EXIT: usize = 93;
 
+const SYSCALL_YIELD: usize = 124;
+
 /// Performs a raw system call using the RISC-V ecall instruction.
 ///
 /// This function implements the low-level system call interface following
@@ -107,5 +109,5 @@ pub fn system_exit(status: usize) -> ! {
 }
 
 pub fn system_yield() -> isize {
-    syscall(SYSCALL_EXIT, [0, 0, 0])
+    syscall(SYSCALL_YIELD, [0, 0, 0])
 }

@@ -17,7 +17,7 @@ impl TaskContext {
 
     pub fn construct_restore_task(kernel_stk_ptr: usize) -> Self {
         unsafe extern "C" {
-            unsafe fn __restore();
+            fn __restore();
         }
         Self {
             ra: __restore as usize,

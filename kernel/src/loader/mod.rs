@@ -1,7 +1,9 @@
 use core::arch::asm;
 
 use crate::{
-    config, debugln, loader::{kernel_stack::KERNEL_STACK, user_stack::USER_STACK}, trap::context::TrapContext
+    config,
+    loader::{kernel_stack::KERNEL_STACK, user_stack::USER_STACK},
+    trap::context::TrapContext,
 };
 
 mod kernel_stack;

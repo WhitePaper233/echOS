@@ -29,5 +29,5 @@ fn panic(info: &PanicInfo) -> ! {
             println!("System panicked: {}", info.message());
         }
     }
-    system::shutdown(true);
+    system::power::shutdown(true);
 }

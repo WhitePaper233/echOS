@@ -14,6 +14,8 @@ const SYSCALL_EXIT: usize = 93;
 
 const SYSCALL_YIELD: usize = 124;
 
+pub const SYSCALL_GET_TIME_OF_DAY: usize = 169;
+
 /// Performs a raw system call using the RISC-V ecall instruction.
 ///
 /// This function implements the low-level system call interface following
@@ -110,4 +112,14 @@ pub fn system_exit(status: usize) -> ! {
 
 pub fn system_yield() -> isize {
     syscall(SYSCALL_YIELD, [0, 0, 0])
+}
+
+#[repr(C)]
+pub struct TimeVal {
+    pub sec: usize,
+    pub usec: usize,
+}
+
+pub fn sys_get_time_of_day(tp: *mut TimeVal, tzp: usize) -> isize {
+    syscall(SYSCALL_GET_TIME_OF_DAY, [tp as usize, tzp, 0])
 }

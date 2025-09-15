@@ -6,8 +6,6 @@
 #![no_std]
 #![feature(linkage)]
 
-use crate::syscall::system_yield;
-
 #[macro_use]
 pub mod console;
 mod language_items;
@@ -37,7 +35,11 @@ pub fn exit(status: i32) -> ! {
 }
 
 pub fn yield_() -> isize {
-    system_yield()
+    syscall::system_yield()
+}
+
+pub fn get_time() -> isize {
+    syscall::sys_get_time_of_day(core::ptr::null_mut(), 0)
 }
 
 /// Application entry point called by the kernel when starting a user process.

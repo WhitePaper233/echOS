@@ -2,7 +2,7 @@
     .section .data
     .global _app_nums
 _app_nums:
-    .quad 9
+    .quad 13
     .quad app_0_start
     .quad app_1_start
     .quad app_2_start
@@ -12,7 +12,11 @@ _app_nums:
     .quad app_6_start
     .quad app_7_start
     .quad app_8_start
-    .quad app_8_end
+    .quad app_9_start
+    .quad app_10_start
+    .quad app_11_start
+    .quad app_12_start
+    .quad app_12_end
         
     .section .data
     .global app_0_start
@@ -76,4 +80,32 @@ app_7_end:
 app_8_start:
     .incbin "./target/riscv64gc-unknown-none-elf/release/08write_c.bin"
 app_8_end:
+
+    .section .data
+    .global app_9_start
+    .global app_9_end
+app_9_start:
+    .incbin "./target/riscv64gc-unknown-none-elf/release/09power_3.bin"
+app_9_end:
+
+    .section .data
+    .global app_10_start
+    .global app_10_end
+app_10_start:
+    .incbin "./target/riscv64gc-unknown-none-elf/release/10power_5.bin"
+app_10_end:
+
+    .section .data
+    .global app_11_start
+    .global app_11_end
+app_11_start:
+    .incbin "./target/riscv64gc-unknown-none-elf/release/11power_7.bin"
+app_11_end:
+
+    .section .data
+    .global app_12_start
+    .global app_12_end
+app_12_start:
+    .incbin "./target/riscv64gc-unknown-none-elf/release/12sleep.bin"
+app_12_end:
 

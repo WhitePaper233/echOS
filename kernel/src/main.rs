@@ -25,8 +25,9 @@ pub fn kernel_entry() -> ! {
     warnln!("Do not do this!");
     errorln!("Error occured!");
 
-    trap::init();
     loader::load_apps();
+    trap::init();
+    system::timer::set_next_trigger();
     task::run_first_task();
 }
 

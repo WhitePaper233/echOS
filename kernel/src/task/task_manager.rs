@@ -73,6 +73,11 @@ impl TaskManager {
         }
         unreachable!()
     }
+
+    pub fn get_current_task(&self) -> usize {
+        let inner = unsafe { &mut (*self.inner.get()) };
+        inner.current_task
+    }
 }
 
 lazy_static! {
